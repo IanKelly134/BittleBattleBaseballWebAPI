@@ -4,6 +4,7 @@ using BittleBattleBaseball.Models.ViewModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -159,8 +160,9 @@ namespace BittleBattleBaseball.ApplicationService
                     return null;
                 }
             }
-            catch
+            catch(Exception ex)
             {
+                Debug.WriteLine(ex.ToString());
                 return null;
             }
         }
@@ -226,13 +228,24 @@ namespace BittleBattleBaseball.ApplicationService
             hitterInfo.HR = !playerStats.hr.Contains("-") ? Convert.ToInt32(playerStats.hr) : 0;
             hitterInfo.RBI = !playerStats.rbi.Contains("-") ? Convert.ToInt32(playerStats.rbi) : 0;
             hitterInfo.BB = !playerStats.bb.Contains("-") ? Convert.ToInt32(playerStats.bb) : 0;
-            hitterInfo.SB = !playerStats.sb.Contains("-") ? Convert.ToInt32(playerStats.sb) : 0;
-            hitterInfo.CS = !playerStats.cs.Contains("-") ? Convert.ToInt32(playerStats.cs) : 0;
-            hitterInfo.GIDP = !playerStats.gidp.Contains("-") ? Convert.ToInt32(playerStats.gidp) : 0;
+
+            if(!string.IsNullOrWhiteSpace(playerStats.sb))
+                hitterInfo.SB = !playerStats.sb.Contains("-") ? Convert.ToInt32(playerStats.sb) : 0;
+
+            if (!string.IsNullOrWhiteSpace(playerStats.cs))
+                hitterInfo.CS = !playerStats.cs.Contains("-") ? Convert.ToInt32(playerStats.cs) : 0;
+
+            if (!string.IsNullOrWhiteSpace(playerStats.gidp))
+                hitterInfo.GIDP = !playerStats.gidp.Contains("-") ? Convert.ToInt32(playerStats.gidp) : 0;
+
             hitterInfo.H = !playerStats.h.Contains("-") ? Convert.ToInt32(playerStats.h) : 0;
             hitterInfo.R = !playerStats.r.Contains("-") ? Convert.ToInt32(playerStats.r) : 0;
-            hitterInfo.SO = !playerStats.so.Contains("-") ? Convert.ToInt32(playerStats.so) : 0;
-            hitterInfo.XBH = !playerStats.xbh.Contains("-") ? Convert.ToInt32(playerStats.xbh) : 0;
+
+            if (!string.IsNullOrWhiteSpace(playerStats.so))
+                hitterInfo.SO = !playerStats.so.Contains("-") ? Convert.ToInt32(playerStats.so) : 0;
+
+            if (!string.IsNullOrWhiteSpace(playerStats.xbh))
+                hitterInfo.XBH = !playerStats.xbh.Contains("-") ? Convert.ToInt32(playerStats.xbh) : 0;
 
             hitterInfo.Player = new PlayerViewModel
             {

@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Web;
 
 namespace BittleBattleBaseball.ApplicationService
 {
@@ -57,7 +56,8 @@ namespace BittleBattleBaseball.ApplicationService
                             Ballpark = teamResult.venue_name,
                             Name = teamResult.name,
                             City = teamResult.city,
-                            NameAbbrev = teamResult.name_abbrev
+                            NameAbbrev = teamResult.name_abbrev,
+                            LogoUrl = "https://d2p3bygnnzw9w3.cloudfront.net/req/202001161/tlogo/br/" + teamResult.name_abbrev + "-" + season + ".png"
                         });
                     }
                     else

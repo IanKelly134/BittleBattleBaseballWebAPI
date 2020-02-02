@@ -10,6 +10,8 @@
         public string City { get; set; }
         public string NameAbbrev { get; set; }
         public string Name { get; set; }
-     
+
+        public string LogoUrl { get; set; }
+
     }
 }
