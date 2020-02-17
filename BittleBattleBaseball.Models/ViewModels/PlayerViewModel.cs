@@ -8,6 +8,8 @@ namespace BittleBattleBaseball.Models.ViewModels
 
         public string PlayerName { get; set; }
 
+        public string NickName { get; set; }
+
         //public string FirstInitial { get; set; }
 
         //public string LastName { get; set; }

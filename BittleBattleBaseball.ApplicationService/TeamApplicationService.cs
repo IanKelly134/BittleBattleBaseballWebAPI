@@ -91,6 +91,7 @@ namespace BittleBattleBaseball.ApplicationService
                         PlayerName = rosterPlayerResult.name_first_last,
                         DOB = rosterPlayerResult.birth_date,
                         Position = rosterPlayerResult.primary_position,
+                       // NickName = rosterPlayerResult.name_sort
                        // Weight = Convert.ToInt32(rosterPlayerResult.weight),
                        // Height = Convert.ToDecimal(rosterPlayerResult.height_feet + "." + rosterPlayerResult.height_inches)
                     };

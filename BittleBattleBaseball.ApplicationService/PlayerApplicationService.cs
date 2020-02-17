@@ -229,6 +229,8 @@ namespace BittleBattleBaseball.ApplicationService
             hitterInfo.RBI = !playerStats.rbi.Contains("-") ? Convert.ToInt32(playerStats.rbi) : 0;
             hitterInfo.BB = !playerStats.bb.Contains("-") ? Convert.ToInt32(playerStats.bb) : 0;
 
+           
+
             if(!string.IsNullOrWhiteSpace(playerStats.sb))
                 hitterInfo.SB = !playerStats.sb.Contains("-") ? Convert.ToInt32(playerStats.sb) : 0;
 
