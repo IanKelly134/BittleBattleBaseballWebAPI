@@ -8,7 +8,7 @@ namespace BittleBattleBaseballWebAPI.Controllers
     [ApiController]
     public class MLBStatsController : ControllerBase
     {
-        [HttpGet("{season}", Name = "GetLeagueBattingStatsByYear")]
+        [HttpGet("GetLeagueBattingStatsByYear/{season}", Name = "GetLeagueBattingStatsByYear")]
         public MLBYearByYearBattingStatsViewModel GetLeagueBattingStatsByYear(int season)
         {
             MLBStatsApplicationService appService = new MLBStatsApplicationService();
@@ -16,7 +16,7 @@ namespace BittleBattleBaseballWebAPI.Controllers
             return stats;
         }
 
-        [HttpGet("{season}", Name = "GetLeaguePitchingStatsByYear")]
+        [HttpGet("GetLeaguePitchingStatsByYear/{season}", Name = "GetLeaguePitchingStatsByYear")]
         public MLBYearByYearPitchingStatsViewModel GetLeaguePitchingStatsByYear(int season)
         {
             MLBStatsApplicationService appService = new MLBStatsApplicationService();
