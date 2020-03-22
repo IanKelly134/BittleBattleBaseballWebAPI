@@ -38,6 +38,8 @@ namespace BittleBattleBaseball.ApplicationService
 
         public MLBYearByYearPitchingStatsViewModel GetLeaguePitchingStatsByYear(int season)
         {
+            return new MLBYearByYearPitchingStatsViewModel();
+
             MLBYearByYearPitchingStatsDTO seasonStat = MLBStatsApplicationService.MLBYearByYearPitchingStatsCache.FirstOrDefault(x => x.Year == season);
             if (seasonStat != null)
             {
