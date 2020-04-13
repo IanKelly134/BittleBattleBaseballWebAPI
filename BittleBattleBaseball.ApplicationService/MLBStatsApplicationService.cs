@@ -13,6 +13,12 @@ namespace BittleBattleBaseball.ApplicationService
         private static List<MLBYearByYearBattingStatsDTO> _mLBYearByYearBattingStatsCache;
         private static List<MLBYearByYearPitchingStatsDTO> _mLBYearByYearPitchingStatsCache;
 
+        public MLBStatsApplicationService()
+        {
+            LoadBattingJson();
+            LoadPitchingJson();
+        }
+
 
         public MLBYearByYearBattingStatsViewModel GetLeagueBattingStatsByYear(int season)
         {
@@ -93,9 +99,15 @@ namespace BittleBattleBaseball.ApplicationService
 
         private static void LoadBattingJson()
         {
-            if (File.Exists(@"C:\DEV\BittleBattleBaseballWebAPI\BittleBattleBaseballWebAPI\MLBYearByYearLeagueBattingStats.json"))
+        
+
+            //var currDir = System.IO.Directory.GetCurrentDirectory();
+            string envCurrDir = Environment.CurrentDirectory;
+
+           // var execPath = System.IO.Path.GetDirectory(Application.ExecutablePath);
+            if (File.Exists(envCurrDir + @"\MLBYearByYearLeagueBattingStats.json"))
             {
-                using (StreamReader r = new StreamReader(@"C:\DEV\BittleBattleBaseballWebAPI\BittleBattleBaseballWebAPI\MLBYearByYearLeagueBattingStats.json"))
+                using (StreamReader r = new StreamReader(envCurrDir + @"\MLBYearByYearLeagueBattingStats.json"))
                 {
                     string json = r.ReadToEnd();
                     _mLBYearByYearBattingStatsCache = JsonConvert.DeserializeObject<IEnumerable<MLBYearByYearBattingStatsDTO>>(json).ToList();
@@ -105,9 +117,10 @@ namespace BittleBattleBaseball.ApplicationService
 
         private static void LoadPitchingJson()
         {
-            if (File.Exists(@"C:\DEV\BittleBattleBaseballWebAPI\BittleBattleBaseballWebAPI\MLBYearByYearLeaguePitchingStats.json"))
+            string envCurrDir = Environment.CurrentDirectory;
+            if (File.Exists(envCurrDir+ @"\MLBYearByYearLeaguePitchingStats.json"))
             {
-                using (StreamReader r = new StreamReader(@"C:\DEV\BittleBattleBaseballWebAPI\BittleBattleBaseballWebAPI\MLBYearByYearLeaguePitchingStats.json"))
+                using (StreamReader r = new StreamReader(envCurrDir + @"\MLBYearByYearLeaguePitchingStats.json"))
                 {
                     string json = r.ReadToEnd();
                     _mLBYearByYearPitchingStatsCache = JsonConvert.DeserializeObject<IEnumerable<MLBYearByYearPitchingStatsDTO>>(json).ToList();
