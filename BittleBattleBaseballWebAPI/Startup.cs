@@ -29,7 +29,7 @@ namespace BittleBattleBaseballWebAPI
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200", "http://bittlebattlebaseball.azurewebsites.net"); 
+                    builder.WithOrigins("http://localhost:4200", "https://iankelly134.github.io/BittleBattleBaseball/"); 
                 });
             });
 
