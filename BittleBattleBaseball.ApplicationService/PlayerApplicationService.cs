@@ -169,12 +169,12 @@ namespace BittleBattleBaseball.ApplicationService
 
         private string GetSeasonHittingStatsJson(int season, int playerId, string leagueListId, string gameType)
         {
-            string url = $"https://mlb-data.p.rapidapi.com/json/named.player_teams.bam?season=\'{season}\'&player_id=\'{playerId}\'&league_list_id=\'{leagueListId}\'&game_type=\'{gameType}\'";
+            string url = $"https://mlb-data.p.rapidapi.com/json/named.sport_hitting_tm.bam?season=\'{season}\'&player_id=\'{playerId}\'&league_list_id=\'{leagueListId}\'&game_type=\'{gameType}\'";
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.Method = "GET";
-            request.Headers.Add("X-RapidAPI-Key", "af5352e3e5msh027e7a5c8c8cc76p157788jsndab27210c9c4");
             request.Headers.Add("x-rapidapi-host", "mlb-data.p.rapidapi.com");
+            request.Headers.Add("x-rapidapi-key", "af5352e3e5msh027e7a5c8c8cc76p157788jsndab27210c9c4");          
 
             var content = string.Empty;
 
@@ -294,6 +294,7 @@ namespace BittleBattleBaseball.ApplicationService
 
             request.Method = "GET";
             request.Headers.Add("X-RapidAPI-Key", "af5352e3e5msh027e7a5c8c8cc76p157788jsndab27210c9c4");
+            request.Headers.Add("x-rapidapi-host", "mlb-data.p.rapidapi.com");
 
             var content = string.Empty;
 
