@@ -138,7 +138,12 @@ namespace BittleBattleBaseball.ApplicationService
                     }
                     else
                     {
-                        HitterPlayerSeasonViewModel playerSeasonVm = playerService.GetPlayerSeasonHittingStats(season, playerVm.Id, "mlb", "R");
+                        HitterPlayerSeasonViewModel playerSeasonVm;
+
+                        if(season == DateTime.Today.Year)
+                            playerSeasonVm = playerService.GetPlayerProjectedSeasonHittingStats(season, playerVm.Id, "mlb");
+                        else
+                            playerSeasonVm = playerService.GetPlayerSeasonHittingStats(season, playerVm.Id, "mlb", "R");
                         
                         if (playerSeasonVm != null)
                         {

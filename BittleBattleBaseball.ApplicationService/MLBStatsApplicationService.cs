@@ -22,6 +22,9 @@ namespace BittleBattleBaseball.ApplicationService
 
         public MLBYearByYearBattingStatsViewModel GetLeagueBattingStatsByYear(int season)
         {
+            if (season == DateTime.Today.Year)
+                season -= 1;//TODO - TAKE THIS OUT .. it was just because their site was down
+
             MLBYearByYearBattingStatsDTO seasonStat = MLBStatsApplicationService.MLBYearByYearBattingStatsCache.FirstOrDefault(x => x.Year == season);
             if(seasonStat != null)
             {
