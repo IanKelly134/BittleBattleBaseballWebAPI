@@ -171,7 +171,7 @@ namespace BittleBattleBaseball.ApplicationService
 
         private string GetTeamsBySeasonJson(int season)
         {
-            string url = $"https://mlb-data.p.rapidapi.com/json/named.team_all_season.bam?season=\'{season}\'";
+            string url = $"https://mlb-data.p.rapidapi.com/json/named.team_all_season.bam?season=\'{season}\'&all_star_sw=\'N\'";
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.Method = "GET";        
