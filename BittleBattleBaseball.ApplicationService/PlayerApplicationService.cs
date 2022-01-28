@@ -264,9 +264,9 @@ namespace BittleBattleBaseball.ApplicationService
         {
             HitterPlayerSeasonViewModel returnVal = new HitterPlayerSeasonViewModel();
 
-            if (dto != null && dto.sport_hitting_tm != null && dto.sport_hitting_tm.queryResults != null && dto.sport_hitting_tm.queryResults.row != null)
+            if (dto != null && dto.sport_hitting_tm != null && dto.sport_hitting_tm.queryResults != null && dto.sport_hitting_tm.queryResults.stats != null)
             {
-                var playerStats = dto.sport_hitting_tm.queryResults.row;
+                var playerStats = dto.sport_hitting_tm.queryResults.stats[dto.sport_hitting_tm.queryResults.stats.Count - 1];
                 PopulateBattingStats(returnVal, playerStats);
             }
 
@@ -382,9 +382,9 @@ namespace BittleBattleBaseball.ApplicationService
         {
             PitcherPlayerSeasonViewModel returnVal = new PitcherPlayerSeasonViewModel();
 
-            if (dto != null && dto.sport_pitching_tm != null && dto.sport_pitching_tm.queryResults != null && dto.sport_pitching_tm.queryResults.row != null)
+            if (dto != null && dto.sport_pitching_tm != null && dto.sport_pitching_tm.queryResults != null && dto.sport_pitching_tm.queryResults.stats != null)
             {
-                var playerStats = dto.sport_pitching_tm.queryResults.row;
+                var playerStats = dto.sport_pitching_tm.queryResults.stats[dto.sport_pitching_tm.queryResults.stats.Count - 1];
                 PopulatePitchingStats(returnVal, playerStats);
             }
 

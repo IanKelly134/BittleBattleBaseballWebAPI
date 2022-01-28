@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace BittleBattleBaseball.Models.DTOs
 {
@@ -64,7 +65,7 @@ namespace BittleBattleBaseball.Models.DTOs
     {
         public DateTime created { get; set; }
         public string totalSize { get; set; }
-        public Stat row { get; set; }
+        public List<Stat> stats { get; set; }
     }
 
     public class SportHittingTmSingle
