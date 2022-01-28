@@ -29,11 +29,11 @@ namespace BittleBattleBaseballWebAPI
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200");
+                    builder.WithOrigins("http://localhost:4200", "http://iankelly134.github.io", "http://iankelly134.github.io/BittleBattleBaseball/", "https://iankelly134.github.io", "https://iankelly134.github.io/BittleBattleBaseball/"); 
                 });
             });
 
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +47,7 @@ namespace BittleBattleBaseballWebAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+             
             app.UseAuthorization();
 
             app.UseCors(MyAllowSpecificOrigins);

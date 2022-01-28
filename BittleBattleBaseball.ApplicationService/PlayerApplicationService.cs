@@ -139,6 +139,34 @@ namespace BittleBattleBaseball.ApplicationService
         #endregion
 
         #region Hitting
+        public HitterPlayerSeasonViewModel GetPlayerProjectedSeasonHittingStats(int season, int playerId, string leagueListId)
+        {            
+            string jsonData = this.GetSeasonProjectedHittingStatsJson(season, playerId, leagueListId);
+
+            try
+            {
+                GetPlayerProjectedSeasonHittingSingleTeamStatsDTO dto = GetPlayerProjectedSeasonHittingSingleTeamStatsDTO.FromJson(jsonData);
+                return GetPlayerSeasonHittingSingleTeamViewModelFromDTO(dto);
+            }
+            catch (JsonSerializationException)
+            {
+                try
+                {
+                    GetPlayerSeasonHittingMultiTeamStatsDTO dto = GetPlayerSeasonHittingMultiTeamStatsDTO.FromJson(jsonData);
+                    return GetPlayerSeasonHittingMultiTeamViewModelFromDTO(dto);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                return null;
+            }
+        }
+
         public HitterPlayerSeasonViewModel GetPlayerSeasonHittingStats(int season, int playerId, string leagueListId, string gameType)
         {
             string jsonData = this.GetSeasonHittingStatsJson(season, playerId, leagueListId, gameType);
@@ -173,7 +201,33 @@ namespace BittleBattleBaseball.ApplicationService
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.Method = "GET";
-            request.Headers.Add("X-RapidAPI-Key", "af5352e3e5msh027e7a5c8c8cc76p157788jsndab27210c9c4");
+            request.Headers.Add("x-rapidapi-host", "mlb-data.p.rapidapi.com");
+            request.Headers.Add("x-rapidapi-key", "af5352e3e5msh027e7a5c8c8cc76p157788jsndab27210c9c4");          
+
+            var content = string.Empty;
+
+            using (var response = (HttpWebResponse)request.GetResponse())
+            {
+                using (var stream = response.GetResponseStream())
+                {
+                    using (var sr = new StreamReader(stream))
+                    {
+                        content = sr.ReadToEnd();
+                    }
+                }
+            }
+
+            return content;
+        }
+
+        private string GetSeasonProjectedHittingStatsJson(int season, int playerId, string leagueListId)
+        {
+            string url = $"https://mlb-data.p.rapidapi.com/json/named.proj_pecota_batting.bam?season=\'{season}\'&player_id=\'{playerId}\'&league_list_id=\'{leagueListId}\'";
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Method = "GET";
+            request.Headers.Add("x-rapidapi-host", "mlb-data.p.rapidapi.com");
+            request.Headers.Add("x-rapidapi-key", "af5352e3e5msh027e7a5c8c8cc76p157788jsndab27210c9c4");
 
             var content = string.Empty;
 
@@ -210,9 +264,22 @@ namespace BittleBattleBaseball.ApplicationService
         {
             HitterPlayerSeasonViewModel returnVal = new HitterPlayerSeasonViewModel();
 
-            if (dto != null && dto.sport_hitting_tm != null && dto.sport_hitting_tm.queryResults != null && dto.sport_hitting_tm.queryResults.row != null)
+            if (dto != null && dto.sport_hitting_tm != null && dto.sport_hitting_tm.queryResults != null && dto.sport_hitting_tm.queryResults.stats != null)
             {
-                var playerStats = dto.sport_hitting_tm.queryResults.row;
+                var playerStats = dto.sport_hitting_tm.queryResults.stats[dto.sport_hitting_tm.queryResults.stats.Count - 1];
+                PopulateBattingStats(returnVal, playerStats);
+            }
+
+            return returnVal;
+        }
+
+        private static HitterPlayerSeasonViewModel GetPlayerSeasonHittingSingleTeamViewModelFromDTO(GetPlayerProjectedSeasonHittingSingleTeamStatsDTO dto)
+        {
+            HitterPlayerSeasonViewModel returnVal = new HitterPlayerSeasonViewModel();
+
+            if (dto != null && dto.proj_pecota_batting != null && dto.proj_pecota_batting.queryResults != null && dto.proj_pecota_batting.queryResults.row != null)
+            {
+                var playerStats = dto.proj_pecota_batting.queryResults.row;
                 PopulateBattingStats(returnVal, playerStats);
             }
 
@@ -293,6 +360,7 @@ namespace BittleBattleBaseball.ApplicationService
 
             request.Method = "GET";
             request.Headers.Add("X-RapidAPI-Key", "af5352e3e5msh027e7a5c8c8cc76p157788jsndab27210c9c4");
+            request.Headers.Add("x-rapidapi-host", "mlb-data.p.rapidapi.com");
 
             var content = string.Empty;
 
@@ -314,9 +382,9 @@ namespace BittleBattleBaseball.ApplicationService
         {
             PitcherPlayerSeasonViewModel returnVal = new PitcherPlayerSeasonViewModel();
 
-            if (dto != null && dto.sport_pitching_tm != null && dto.sport_pitching_tm.queryResults != null && dto.sport_pitching_tm.queryResults.row != null)
+            if (dto != null && dto.sport_pitching_tm != null && dto.sport_pitching_tm.queryResults != null && dto.sport_pitching_tm.queryResults.stats != null)
             {
-                var playerStats = dto.sport_pitching_tm.queryResults.row;
+                var playerStats = dto.sport_pitching_tm.queryResults.stats[dto.sport_pitching_tm.queryResults.stats.Count - 1];
                 PopulatePitchingStats(returnVal, playerStats);
             }
 

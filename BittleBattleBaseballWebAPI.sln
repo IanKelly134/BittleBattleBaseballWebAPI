@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BittleBattleBaseballWebAPI", "BittleBattleBaseballWebAPI\BittleBattleBaseballWebAPI.csproj", "{70308267-1085-47AA-BEE2-32E547C2DFCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BittleBattleBaseballWebAPI", "BittleBattleBaseballWebAPI\BittleBattleBaseballWebAPI.csproj", "{70308267-1085-47AA-BEE2-32E547C2DFCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BittleBattleBaseball.Models", "BittleBattleBaseball.Models\BittleBattleBaseball.Models.csproj", "{C4313E19-7192-4D8B-932E-1F3B27D1C832}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BittleBattleBaseball.Models", "BittleBattleBaseball.Models\BittleBattleBaseball.Models.csproj", "{C4313E19-7192-4D8B-932E-1F3B27D1C832}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BittleBattleBaseball.ApplicationService", "BittleBattleBaseball.ApplicationService\BittleBattleBaseball.ApplicationService.csproj", "{334C3DD6-7760-4A7F-8423-7384E8C244A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BittleBattleBaseball.ApplicationService", "BittleBattleBaseball.ApplicationService\BittleBattleBaseball.ApplicationService.csproj", "{334C3DD6-7760-4A7F-8423-7384E8C244A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BittleBattleBaseball.DAL", "BittleBattleBaseball.DAL\BittleBattleBaseball.DAL.csproj", "{F15F9CF5-398E-4177-8686-73AF7DB2D3A3}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "BittleBattleBaseball.Database", "BittleBattleBaseball.Database\BittleBattleBaseball.Database.sqlproj", "{BD2A9A57-3D04-41A6-91C3-2AA6BFE83573}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,16 @@ Global
 		{334C3DD6-7760-4A7F-8423-7384E8C244A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{334C3DD6-7760-4A7F-8423-7384E8C244A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{334C3DD6-7760-4A7F-8423-7384E8C244A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F15F9CF5-398E-4177-8686-73AF7DB2D3A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F15F9CF5-398E-4177-8686-73AF7DB2D3A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F15F9CF5-398E-4177-8686-73AF7DB2D3A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F15F9CF5-398E-4177-8686-73AF7DB2D3A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD2A9A57-3D04-41A6-91C3-2AA6BFE83573}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD2A9A57-3D04-41A6-91C3-2AA6BFE83573}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD2A9A57-3D04-41A6-91C3-2AA6BFE83573}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BD2A9A57-3D04-41A6-91C3-2AA6BFE83573}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD2A9A57-3D04-41A6-91C3-2AA6BFE83573}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD2A9A57-3D04-41A6-91C3-2AA6BFE83573}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
