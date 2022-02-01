@@ -15,25 +15,28 @@ namespace BittleBattleBaseball.ApplicationService
     {
         // private const string RAPID_API_GET_TEAMS_BY_SEASON_ENDPOINT_URL = "https://mlb-data.p.rapidapi.com/json/named.team_all_season.bam";
 
-        public async Task<List<TeamSearchResultViewModel>> GetTeamsBySeason(int season)
+        public async Task<List<TeamSearchResultViewModel>> GetTeamsBySeason(string league, int season)
         {
             string jsonData = await this.GetTeamsBySeasonJsonAsync(season);
 
             GetTeamsBySeasonDTO teamsBySeasonDto = GetTeamsBySeasonDTO.FromJson(jsonData);
 
-            return await GetTeamsBySeasonViewModelFromDTO(season, teamsBySeasonDto);
+            if (string.IsNullOrEmpty(league))
+                league = "mlb";
+
+            return await GetTeamsBySeasonViewModelFromDTO(league, season, teamsBySeasonDto);
         }
 
-        public async Task<RosterSearchResultViewModel> GetRosterBySeason(int season, int teamId)
+        public async Task<RosterSearchResultViewModel> GetRosterBySeason(string league, int season, int teamId)
         {
             string jsonData = await this.GetRosterBySeasonJsonAsync(season, teamId);
 
             GetRosterBySeasonDTO getRosterBySeasonDTO = GetRosterBySeasonDTO.FromJson(jsonData);
 
-            return await GetRosterBySeasonViewModelFromDTO(season, teamId, getRosterBySeasonDTO);
+            return await GetRosterBySeasonViewModelFromDTO(league, season, teamId, getRosterBySeasonDTO);
         }
 
-        private static async Task<List<TeamSearchResultViewModel>> GetTeamsBySeasonViewModelFromDTO(int season, GetTeamsBySeasonDTO teamsBySeasonDto)
+        private static async Task<List<TeamSearchResultViewModel>> GetTeamsBySeasonViewModelFromDTO(string league, int season, GetTeamsBySeasonDTO teamsBySeasonDto)
         {
             List<TeamSearchResultViewModel> returnList = new List<TeamSearchResultViewModel>();
 
@@ -42,7 +45,7 @@ namespace BittleBattleBaseball.ApplicationService
             {
                 foreach (TeamSearchResult teamResult in teamsBySeasonDto.team_all_season.queryResults.row)
                 {
-                    if (!string.IsNullOrEmpty(teamResult.sport_code) && teamResult.sport_code.ToLower() == "mlb"
+                    if (!string.IsNullOrEmpty(teamResult.sport_code) && teamResult.sport_code.ToLower() == league
                         && !string.IsNullOrWhiteSpace(teamResult.venue_name)
                         && teamResult.name_display_full.ToLower() != "to be determined"
                         && teamResult.name_display_full.ToLower() != "office of the commissioner"
@@ -72,7 +75,7 @@ namespace BittleBattleBaseball.ApplicationService
             return returnList.OrderByDescending(x => x.League).ToList();
         }
 
-        private static async Task<RosterSearchResultViewModel> GetRosterBySeasonViewModelFromDTO(int season, int teamId, GetRosterBySeasonDTO dto)
+        private static async Task<RosterSearchResultViewModel> GetRosterBySeasonViewModelFromDTO(string league, int season, int teamId, GetRosterBySeasonDTO dto)
         {
             RosterSearchResultViewModel returnVal = new RosterSearchResultViewModel { Id = teamId, Season = season };
 
@@ -128,11 +131,11 @@ namespace BittleBattleBaseball.ApplicationService
                     if (rosterPlayerResult.primary_position.ToLower().Trim().Contains("p"))
                     {
 
-                        var playerSeasonVm = playerService.GetPlayerSeasonPitchingStats(season, playerVm.Id, "mlb", "R");
+                        var playerSeasonVm = playerService.GetPlayerSeasonPitchingStats(season, playerVm.Id, league, "R");
                         if (playerSeasonVm != null)
                         {
                             playerSeasonVm.GameType = "R";
-                            playerSeasonVm.LeagueType = "mlb";
+                            playerSeasonVm.LeagueType = league;
                             playerSeasonVm.Player = playerVm;
                             playerSeasonVm.Season = season;
                             returnVal.Pitchers.Add(playerSeasonVm);
@@ -145,12 +148,12 @@ namespace BittleBattleBaseball.ApplicationService
                         if (season == DateTime.Today.Year)
                             playerSeasonVm = playerService.GetPlayerProjectedSeasonHittingStats(season, playerVm.Id, "mlb");
                         else
-                            playerSeasonVm = playerService.GetPlayerSeasonHittingStats(season, playerVm.Id, "mlb", "R");
+                            playerSeasonVm = playerService.GetPlayerSeasonHittingStats(season, playerVm.Id, league, "R");
 
                         if (playerSeasonVm != null)
                         {
                             playerSeasonVm.GameType = "R";
-                            playerSeasonVm.LeagueType = "mlb";
+                            playerSeasonVm.LeagueType = league;
                             playerSeasonVm.Player = playerVm;
                             playerSeasonVm.Season = season;
                             returnVal.Hitters.Add(playerSeasonVm);

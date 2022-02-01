@@ -10,20 +10,20 @@ namespace BittleBattleBaseballWebAPI.Controllers
     [ApiController]
     public class TeamController : ControllerBase
     {
-        //// GET: api/Team/5
-        [HttpGet("{season}", Name = "GetTeamsBySeason")]
-        public async Task<List<TeamSearchResultViewModel>> GetTeamsBySeason(int season)
+        //// GET: api/Team/mlb/1987
+        [HttpGet("{league}/{season}", Name = "GetTeamsBySeason")]
+        public async Task<List<TeamSearchResultViewModel>> GetTeamsBySeason(string league, int season)
         {
             TeamApplicationService appService = new TeamApplicationService();
-            return await appService.GetTeamsBySeason(season);
+            return await appService.GetTeamsBySeason(league, season);
         }
 
-        //// GET: api/Team/5
-        [HttpGet("{season}/{teamId}", Name = "GetRosterBySeason")]
-        public async Task<RosterSearchResultViewModel> GetRosterBySeason(int season, int teamId)
+        //// GET: api/TeamSeasonRoster/1987/138
+        [HttpGet("{league}/{season}/{teamId}", Name = "GetRosterBySeason")]
+        public async Task<RosterSearchResultViewModel> GetRosterBySeason(string league, int season, int teamId)
         {
             TeamApplicationService appService = new TeamApplicationService();
-            var roster = await appService.GetRosterBySeason(season, teamId);
+            var roster = await appService.GetRosterBySeason(league, season, teamId);
             return roster;
         }
 
