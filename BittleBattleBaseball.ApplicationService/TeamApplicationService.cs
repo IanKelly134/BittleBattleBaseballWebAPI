@@ -27,13 +27,13 @@ namespace BittleBattleBaseball.ApplicationService
             return await GetTeamsBySeasonViewModelFromDTO(league, season, teamsBySeasonDto);
         }
 
-        public async Task<RosterSearchResultViewModel> GetRosterBySeason(string league, int season, int teamId)
+        public async Task<RosterSearchResultViewModel> GetRosterBySeason(string league, int season, int teamId, bool isDesignatedHitterEnabled)
         {
             string jsonData = await this.GetRosterBySeasonJsonAsync(season, teamId);
 
             GetRosterBySeasonDTO getRosterBySeasonDTO = GetRosterBySeasonDTO.FromJson(jsonData);
 
-            return await GetRosterBySeasonViewModelFromDTO(league, season, teamId, getRosterBySeasonDTO);
+            return await GetRosterBySeasonViewModelFromDTO(league, season, teamId, isDesignatedHitterEnabled, getRosterBySeasonDTO);
         }
 
         private static async Task<List<TeamSearchResultViewModel>> GetTeamsBySeasonViewModelFromDTO(string league, int season, GetTeamsBySeasonDTO teamsBySeasonDto)
@@ -60,6 +60,7 @@ namespace BittleBattleBaseball.ApplicationService
                             Season = season,
                             Ballpark = teamResult.venue_name,
                             Name = teamResult.name,
+                            FullTeamName = teamResult.name_display_full,
                             City = teamResult.city,
                             NameAbbrev = teamResult.name_abbrev,
                             LogoUrl = "https://d2p3bygnnzw9w3.cloudfront.net/req/202001161/tlogo/br/" + teamResult.name_abbrev + "-" + season + ".png"
@@ -72,12 +73,15 @@ namespace BittleBattleBaseball.ApplicationService
                 }
             }
 
+            if (DateTime.Now.Second % 2 != 0)
+                return returnList.OrderBy(x => x.League).ToList();
+
             return returnList.OrderByDescending(x => x.League).ToList();
         }
 
-        private static async Task<RosterSearchResultViewModel> GetRosterBySeasonViewModelFromDTO(string league, int season, int teamId, GetRosterBySeasonDTO dto)
+        private static async Task<RosterSearchResultViewModel> GetRosterBySeasonViewModelFromDTO(string league, int season, int teamId, bool isDesignatedHitterEnabled, GetRosterBySeasonDTO dto)
         {
-            RosterSearchResultViewModel returnVal = new RosterSearchResultViewModel { Id = teamId, Season = season };
+            RosterSearchResultViewModel returnVal = new RosterSearchResultViewModel(isDesignatedHitterEnabled = isDesignatedHitterEnabled) { Id = teamId, Season = season };
 
             if (dto != null && dto.roster_team_alltime != null && dto.roster_team_alltime.queryResults != null
                 && dto.roster_team_alltime.queryResults.row != null && dto.roster_team_alltime.queryResults.row.Any())

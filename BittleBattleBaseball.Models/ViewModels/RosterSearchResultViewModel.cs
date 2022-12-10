@@ -5,6 +5,11 @@ namespace BittleBattleBaseball.Models.ViewModels
 {
     public class RosterSearchResultViewModel
     {
+        public RosterSearchResultViewModel(bool isDesignatedHitterEnabled)
+        {
+            this.IsDesignatedHitterEnabled = isDesignatedHitterEnabled;
+        }
+
         private List<HitterPlayerSeasonViewModel> _suggestedLineup;
 
         private List<PitcherPlayerSeasonViewModel> _suggestedRotation;
@@ -14,6 +19,10 @@ namespace BittleBattleBaseball.Models.ViewModels
         public int Season { get; set; }
 
         public string TeamName { get; set; }
+
+        public string League { get; set; }
+
+        public bool IsDesignatedHitterEnabled { get; set; }
 
         public List<PitcherPlayerSeasonViewModel> Pitchers { get; set; }
 
@@ -42,7 +51,7 @@ namespace BittleBattleBaseball.Models.ViewModels
 
                     if (this.Hitters != null && this.Hitters.Any())
                     {
-                        var suggestedLineup = new HitterPlayerSeasonViewModel[8];
+                        var suggestedLineup = IsDesignatedHitterEnabled ? new HitterPlayerSeasonViewModel[9] : new HitterPlayerSeasonViewModel[8];
 
                         //TODO - ADD INCLUDES
                         HitterPlayerSeasonViewModel catcher = null;
@@ -54,6 +63,7 @@ namespace BittleBattleBaseball.Models.ViewModels
                         //HitterPlayerSeasonViewModel centerFielder = null;
                         //HitterPlayerSeasonViewModel rightFielder = null;
                         HitterPlayerSeasonViewModel[] outfielders = new HitterPlayerSeasonViewModel[3];
+                        HitterPlayerSeasonViewModel designatedHitter = null;
                         var orderedByBesterHitters = this.Hitters.OrderByDescending(x => x.HR).ThenByDescending(x => x.AVG).ThenByDescending(x => x.OBP).ThenByDescending(x => x.SLG).ThenByDescending(x => x.RBI).ToList();
                         foreach (var hitter in orderedByBesterHitters)
                         {
@@ -101,6 +111,12 @@ namespace BittleBattleBaseball.Models.ViewModels
                                     continue;
                                 }
                             }
+                            else if (this.IsDesignatedHitterEnabled && !hitter.Player.Position.Contains("P") && designatedHitter == null)
+                            {
+                                hitter.Player.Position = "DH";
+                                designatedHitter = hitter;
+                                continue;
+                            }
                         }
 
 
@@ -122,6 +138,9 @@ namespace BittleBattleBaseball.Models.ViewModels
                         var unorderedLineup = new List<HitterPlayerSeasonViewModel> { catcher, firstBase, secondBase, shortStop, thirdBase };
                         unorderedLineup.AddRange(outfieldersSortedBySize);
 
+                        if (this.IsDesignatedHitterEnabled)
+                            unorderedLineup.Add(designatedHitter);
+
                         if (!unorderedLineup.Any(x => x == null))
                         {
 
@@ -141,7 +160,7 @@ namespace BittleBattleBaseball.Models.ViewModels
                             orderedByBestHitter.RemoveAt(orderedByBestHitter.Count - 1);
 
                             suggestedLineup[6] = orderedByBestHitter[orderedByBestHitter.Count - 1];
-                            orderedByBestHitter.RemoveAt(orderedByBestHitter.Count - 1);
+                            orderedByBestHitter.RemoveAt(orderedByBestHitter.Count - 1);                           
 
                             orderedByBestHitter = orderedByBestHitter.OrderByDescending(x => x.SB).ThenByDescending(x => x.OBP).ToList();
                             //Lead-off Hitter 1 and 2nd are your fastest players left
@@ -160,8 +179,11 @@ namespace BittleBattleBaseball.Models.ViewModels
                             suggestedLineup[5] = orderedByBestHitter[0];
                             orderedByBestHitter.RemoveAt(0);
 
-                            //suggestedLineup[8] = orderedByBestHitter[0];
-                            //orderedByBestHitter.RemoveAt(0);
+                            if (this.IsDesignatedHitterEnabled)
+                            {
+                                suggestedLineup[8] = orderedByBestHitter[0];
+                                orderedByBestHitter.RemoveAt(0);
+                            }
 
                             _suggestedLineup = suggestedLineup.ToList();
                         }

@@ -15,15 +15,16 @@ namespace BittleBattleBaseballWebAPI.Controllers
         public async Task<List<TeamSearchResultViewModel>> GetTeamsBySeason(string league, int season)
         {
             TeamApplicationService appService = new TeamApplicationService();
-            return await appService.GetTeamsBySeason(league, season);
+            var result = await appService.GetTeamsBySeason(league, season);
+            return result;
         }
 
         //// GET: api/TeamSeasonRoster/1987/138
-        [HttpGet("{league}/{season}/{teamId}", Name = "GetRosterBySeason")]
-        public async Task<RosterSearchResultViewModel> GetRosterBySeason(string league, int season, int teamId)
+        [HttpGet("{league}/{season}/{teamId}/{isDesignatedHitterEnabled}", Name = "GetRosterBySeason")]
+        public async Task<RosterSearchResultViewModel> GetRosterBySeason(string league, int season, int teamId, bool isDesignatedHitterEnabled)
         {
             TeamApplicationService appService = new TeamApplicationService();
-            var roster = await appService.GetRosterBySeason(league, season, teamId);
+            var roster = await appService.GetRosterBySeason(league, season, teamId, isDesignatedHitterEnabled);
             return roster;
         }
 
