@@ -15,8 +15,6 @@ namespace BittleBattleBaseballWebAPI
 
         public IConfiguration Configuration { get; }
 
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -26,10 +24,9 @@ namespace BittleBattleBaseballWebAPI
 
             services.AddCors(options =>
             {
-                options.AddPolicy(MyAllowSpecificOrigins,
-                builder =>
+                options.AddDefaultPolicy(policy =>
                 {
-                    builder.WithOrigins("http://localhost:4200", "https://bittlebattlebaseball.onrender.com", "http://bittlebattlebaseball.onrender.com").AllowAnyHeader().AllowAnyMethod();
+                    policy.WithOrigins("http://localhost:4200", "https://bittlebattlebaseball.onrender.com", "http://bittlebattlebaseball.onrender.com").AllowAnyHeader().AllowAnyMethod();
                 });
             });
 
@@ -50,7 +47,7 @@ namespace BittleBattleBaseballWebAPI
              
             app.UseAuthorization();
 
-            app.UseCors(MyAllowSpecificOrigins);
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {
