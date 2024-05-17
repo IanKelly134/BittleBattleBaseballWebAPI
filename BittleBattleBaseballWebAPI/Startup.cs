@@ -29,7 +29,8 @@ namespace BittleBattleBaseballWebAPI
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200", "https://bittlebattlebaseball.onrender.com",  "http://bittlebattlebaseball.onrender.com").AllowAnyMethod(); 
+                    //builder.WithOrigins("http://localhost:4200", "https://bittlebattlebaseball.onrender.com",  "http://bittlebattlebaseball.onrender.com").AllowAnyMethod(); 
+                    builder.WithOrigins("*").AllowAnyMethod();
                 });
             });
 
