@@ -20,7 +20,7 @@ namespace BittleBattleBaseballWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
+            services.AddSwaggerGen();
 
             services.AddCors(options =>
             {
@@ -38,7 +38,9 @@ namespace BittleBattleBaseballWebAPI
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();           
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();
