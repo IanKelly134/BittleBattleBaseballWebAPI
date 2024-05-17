@@ -10,7 +10,12 @@ namespace BittleBattleBaseballWebAPI.Controllers
     [ApiController]
     public class TeamController : ControllerBase
     {
-        //// GET: api/Team/mlb/1987
+        /// <summary>
+        /// GET: api/Team/mlb/1987
+        /// </summary>
+        /// <param name="league"></param>
+        /// <param name="season"></param>
+        /// <returns></returns>
         [HttpGet("{league}/{season}", Name = "GetTeamsBySeason")]
         public async Task<List<TeamSearchResultViewModel>> GetTeamsBySeason(string league, int season)
         {
@@ -19,31 +24,20 @@ namespace BittleBattleBaseballWebAPI.Controllers
             return result;
         }
 
-        //// GET: api/TeamSeasonRoster/1987/138
+        /// <summary>
+        /// GET: api/Team/mlb/1987/138/false
+        /// </summary>
+        /// <param name="league"></param>
+        /// <param name="season"></param>
+        /// <param name="teamId"></param>
+        /// <param name="isDesignatedHitterEnabled"></param>
+        /// <returns></returns>
         [HttpGet("{league}/{season}/{teamId}/{isDesignatedHitterEnabled}", Name = "GetRosterBySeason")]
         public async Task<RosterSearchResultViewModel> GetRosterBySeason(string league, int season, int teamId, bool isDesignatedHitterEnabled)
         {
             TeamApplicationService appService = new TeamApplicationService();
             var roster = await appService.GetRosterBySeason(league, season, teamId, isDesignatedHitterEnabled);
             return roster;
-        }
-
-        // POST: api/Team
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT: api/Team/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }
